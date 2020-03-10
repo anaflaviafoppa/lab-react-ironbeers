@@ -7,7 +7,7 @@ import {ListAll as ListOfBeers } from '../../services/listBeers';
 
 /*COMPONENTS*/
 import BeerItem from '../../components/BeerItem';
-
+import NavbarBeer from '../../components/Navbar';
 
 
 export default class AllBeers extends Component {
@@ -38,11 +38,15 @@ export default class AllBeers extends Component {
   render() {
     return (
       <div>
-        {
-          this.state.beers.map( beer => (
-            <BeerItem key={beer._id} {...beer}  />
-          ))
-        }
+      <NavbarBeer />
+        <div>
+          {
+            this.state.beers.map( beer => (
+              <BeerItem key={beer._id} {...beer}  />
+            ))
+          }
+        </div>
+        
       </div>
     )
   }

@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 /*COMPONENT*/
-import SingleBeerComponent from '../../components/SingleBeerComponent'
+import SingleBeerComponent from '../../components/SingleBeerComponent';
 import NavbarBeer from '../../components/Navbar';
 
+import { randomBeers } from '../../services/randomBeers';
 
 
-import {Single as SingleBeer } from '../../services/singleBeer';
 
-export default class Single extends Component {
+export default class Random extends Component {
   constructor(props){
     super(props);
     this.state={
-      beer:'null'
+      beer:{}
     };
   }
 
@@ -21,17 +21,18 @@ export default class Single extends Component {
     this.fetchData();
   }
 
+ 
   fetchData(){
-    const id = this.props.match.params.id;
-    SingleBeer(id)
-      .then( beer => {
-        this.setState({ beer });
-      })
-      .catch(error => {
-        console.log(error);
+    randomBeers()
+    .then( beer =>{
+      this.setState({
+        beer
       });
+    })
+    .catch(error => {
+      console.log(error);
+    })
   }
-
 
 
   render() {
@@ -39,9 +40,12 @@ export default class Single extends Component {
     const { beer } = this.state;
 
 
+
+
     return (
       <div>
-        <NavbarBeer />
+        
+        <NavbarBeer /> 
         <SingleBeerComponent key={beer._id} {...beer} />
       </div>
     )
