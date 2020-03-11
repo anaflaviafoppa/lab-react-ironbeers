@@ -3,6 +3,9 @@ import { Form, Button, Navbar } from 'react-bootstrap';
 
 import NavbarBeer from '../../components/Navbar';
 
+/*POST*/
+import axios from 'axios';
+
 
 
 export default class NewBeer extends Component {
@@ -12,52 +15,57 @@ export default class NewBeer extends Component {
       name: '',
       tagline: '',
       description: '',
-      brewers: '',
-      attenuation: '',
-      contributed: ''
+      first_brewed: '',
+      brewers_tips: '',
+      attenuation_level: '',
+      contributed_by : ''
     }
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleFormSubmission=this.handleFormSubmission.bind(this);
   };
 
   handleFormSubmission(event){
     event.preventDefault();
 
-    const name = this.state.name;
-    const tagline = this.state.tagline;
-    const description = this.state.description;
-    const brewers = this.state.brewers;
-    const attenuation = this.state.attenuation;
-    const contributed = this.state.contributed;
-
-    if( !name || !tagline || !description || !brewers || !attenuation || !contributed){
-      return;
-    }
-
-    const beer ={
-      id: Date.now().toString(),
-      name,
-      tagline,
-      description,
-      brewers,
-      attenuation,
-      contributed
-    };
+      axios.post("https://ih-beers-api2.herokuapp.com/beers/new", {
+        name: this.state.name,
+        tagline: this.state.tagline,
+        description: this.state.description,
+        first_brewed: this.state.first_brewed,
+        brewers_tips: this.state.brewers_tips,
+        attenuation_level: this.state.attenuation_level,
+        contributed_by: this.state.contributed_by
+      });
+  };
 
 
 
-  }
+  handleInputChange(event) {
+    const { name, value } = event.target;
+
+    this.setState({
+      [name]: value
+    });
+  };
+
+  
 
 
   render() {
     return (
       <div>
         <NavbarBeer />
+
+
         <div className="container">
-          <Form onSubmit={this.handleFormSubmission}>
+          <Form onSubmit={this.handleFormSubmission} action="/all" method="POST">
             <Form.Group controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control type="text" 
               placeholder="Enter Name" 
               name="name"
+              onChange={this.handleInputChange}
               />
             </Form.Group>
 
@@ -65,35 +73,54 @@ export default class NewBeer extends Component {
               <Form.Label>Tagline</Form.Label>
               <Form.Control type="text" 
               placeholder="Enter tagline"
-              name="tagline" />
+              name="tagline" 
+              onChange={this.handleInputChange}
+              />
             </Form.Group>
 
             <Form.Group controlId="exampleForm.ControlTextarea1">
               <Form.Label>Description</Form.Label>
-              <Form.Control as="textarea" 
+              <Form.Control as="textarea" type="text"
               rows="5" 
-              name="description"/>
+              name="description"
+              onChange={this.handleInputChange}
+              />
             </Form.Group>
 
-            <Form.Group controlId="brewers">
-              <Form.Label>Brewers Tips</Form.Label>
+            <Form.Group controlId="first_brewed">
+              <Form.Label>first_brewed</Form.Label>
               <Form.Control type="text" 
               placeholder="" 
-              name="brewers"/>
+              name="first_brewed"
+              onChange={this.handleInputChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="brewers_tips">
+              <Form.Label>brewers_tips</Form.Label>
+              <Form.Control type="text" 
+              placeholder="" 
+              name="brewers_tips  " 
+              onChange={this.handleInputChange}
+              />
             </Form.Group>
 
             <Form.Group controlId="attenuation">
               <Form.Label>Attenuation Level</Form.Label>
-              <Form.Control type="text" 
+              <Form.Control type="number" 
               placeholder="" 
-              name="attenuation" />
+              name="attenuation_level " 
+              onChange={this.handleInputChange}
+              />
             </Form.Group>
 
-            <Form.Group controlId="contributed">
+            <Form.Group controlId="contributed_by">
               <Form.Label>Contributed by</Form.Label>
               <Form.Control type="text" 
               placeholder="" 
-              name="contributed" />
+              name="contributed_by " 
+              onChange={this.handleInputChange}
+              />
             </Form.Group>
 
         
